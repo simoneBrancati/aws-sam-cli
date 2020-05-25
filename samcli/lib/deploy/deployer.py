@@ -473,14 +473,17 @@ class Deployer:
     def get_lambda_environment_variables(self, stack_name, lambda_client):
         def reduce_lambda_configuration(environment_variables, resource):
             if resource["ResourceType"] == "AWS::Lambda::Function":
-                lambda_configuration = lambda_client.get_function_configuration(FunctionName=resource["PhysicalResourceId"])
-                environment_variables.update({
-                    resource["LogicalResourceId"]: lambda_configuration["Environment"]["Variables"]
-                })
+                lambda_configuration = lambda_client.get_function_configuration(
+                    FunctionName=resource["PhysicalResourceId"]
+                )
+                environment_variables.update(
+                    {resource["LogicalResourceId"]: lambda_configuration["Environment"]["Variables"]}
+                )
 
             return environment_variables
+
         try:
-            stack_resources = self._client.describe_stack_resources(StackName=stack_name)['StackResources']
+            stack_resources = self._client.describe_stack_resources(StackName=stack_name)["StackResources"]
 
             return reduce(reduce_lambda_configuration, stack_resources, {})
 

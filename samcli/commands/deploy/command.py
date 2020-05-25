@@ -36,6 +36,7 @@ LOG = logging.getLogger(__name__)
 
 DEFAULT_ENV_VARS_FILE = "environment_variables.json"
 
+
 @click.command(
     "deploy",
     short_help=SHORT_HELP,
@@ -132,14 +133,12 @@ DEFAULT_ENV_VARS_FILE = "environment_variables.json"
     "--save-env-vars",
     required=False,
     is_flag=True,
-    help="Indicates whether to create a JSON file containing the environment variables "
-    "if a filename is not specified, save to the default destination",
+    help="Indicates whether to create a JSON file containing the environment variables. "
+    "If a filename is not specified, save to the default destination",
 )
 @click.argument(
-    "env-vars-filename",
-    required=False,
-    default=DEFAULT_ENV_VARS_FILE,
-    )
+    "env-vars-filename", required=False, default=DEFAULT_ENV_VARS_FILE,
+)
 @metadata_override_option
 @notification_arns_override_option
 @tags_override_option
@@ -169,7 +168,7 @@ def cli(
     guided,
     confirm_changeset,
     save_env_vars,
-    env_vars_filename
+    env_vars_filename,
 ):
 
     # All logic must be implemented in the ``do_cli`` method. This helps with easy unit testing
